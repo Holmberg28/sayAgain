@@ -9,7 +9,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 class Config:
     # Base configuration, common to all environments
     UPLOAD_FOLDER = os.path.join(basedir, 'uploads')
-    ALLOWED_EXTENSIONS = {'txt', 'pdf', 'doc', 'docx', 'json'}  # Add allowed file extensions
+    ALLOWED_EXTENSIONS = {'txt', 'pdf', 'doc', 'docx', 'json', 'zip'}  # Add allowed file extensions
     MAX_CONTENT_LENGTH = 70 * 1024 * 1024  # 70MB max upload size
     GOOGLE_AI_API_KEY = os.environ.get("GOOGLE_AI_API_KEY")
 

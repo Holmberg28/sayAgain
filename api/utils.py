@@ -6,6 +6,7 @@ import string
 import json
 import pickle
 import time
+import zipfile
 from concurrent.futures import ProcessPoolExecutor
 from multiprocessing import Queue
 
@@ -70,6 +71,35 @@ def extract_text_from_first_10_pages(pdf_path):
         logging.error(f"Error: File not found at '{pdf_path}'")
     except Exception as e:
         logging.error(f"An error occurred: {e}")
+
+
+def whatsapp_zip_file(zip_file_path):
+    # Check if the zip file exists
+    if not os.path.isfile(zip_file_path):
+        logging.error(f"The specified zip file does not exist: {zip_file_path}")
+
+    # Extract the _chat.txt file
+    with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
+        # Check for _chat.txt in the zip file
+        if '_chat.txt' not in zip_ref.namelist():
+            logging.error(f"'_chat.txt' not found in the zip file at {zip_file_path}")
+
+        # Extract _chat.txt to the same directory as the zip file
+        zip_ref.extract('_chat.txt', os.path.dirname(zip_file_path))
+
+        # Define the new file path for _chat.txt
+        new_file_path = os.path.splitext(zip_file_path)[0] + '.txt'
+
+        # Get the full path of the extracted _chat.txt
+        extracted_chat_path = os.path.join(os.path.dirname(zip_file_path), '_chat.txt')
+
+        # Remove the original zip file
+        os.remove(zip_file_path)
+
+        # Rename _chat.txt to the new file path
+        os.rename(extracted_chat_path, new_file_path)
+
+        return new_file_path
 
 
 def save_conversation_history(history, chat_name, user_sessions):
@@ -205,6 +235,9 @@ def upload_and_detect(file_path):
     if file_path.lower().endswith('.pdf'):
         logging.info(f"The file '{file_path}' is a PDF. Processing...")
         file_path = extract_text_from_first_10_pages(file_path)
+    elif file_path.lower().endswith('.zip'):
+        logging.info(f"The file '{file_path}' is a ZIP archive. Processing...")
+        file_path = whatsapp_zip_file(file_path)
 
     for attempt in range(2):
         try:
