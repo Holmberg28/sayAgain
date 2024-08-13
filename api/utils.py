@@ -2,6 +2,7 @@ import os
 import re
 import logging
 import secrets
+import shutil
 import string
 import json
 import pickle
@@ -266,3 +267,13 @@ def upload_and_detect(file_path):
             logging.error(f"Error during upload attempt {attempt + 1}: {e}")
 
     raise Exception("Both upload attempts failed.")
+
+
+def copy_file(original_path, destination_directory):
+    destination_filename = os.path.basename(original_path)
+
+    destination_path = os.path.join(destination_directory, destination_filename)
+
+    shutil.copy(original_path, destination_path)
+
+    return destination_path

@@ -1,6 +1,7 @@
 import asyncio
 import logging
 import os
+import shutil
 from html import escape
 
 from flask import Blueprint, request, jsonify
@@ -8,7 +9,7 @@ from flask import Blueprint, request, jsonify
 from .__init__ import user_sessions
 from .utils import (save_conversation_history, generate_secret_key,
                     convert_to_json, upload_and_detect,
-                    run_handle_conversation, executor)
+                    run_handle_conversation, executor, copy_file)
 
 routes_blueprint = Blueprint('routes', __name__)
 
@@ -104,7 +105,7 @@ async def start_conversation():
 
 @routes_blueprint.route('/run_demo', methods=['POST'])
 async def run_demo():
-    file_path = "api/demo/demo.pdf"
+    file_path = copy_file('api/demo/demo.pdf', 'api/uploads')
 
     loop = asyncio.get_event_loop()
 
