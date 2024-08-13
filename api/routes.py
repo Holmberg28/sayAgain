@@ -102,6 +102,51 @@ async def start_conversation():
     return jsonify(send_data_to_frontend)
 
 
+@routes_blueprint.route('/run_demo', methods=['POST'])
+async def run_demo():
+    file_path = "api/demo/demo.pdf"
+
+    loop = asyncio.get_event_loop()
+
+    try:
+        file_saved, conversation_file_uri, file_saved_uri, response = await loop.run_in_executor(
+            executor, upload_and_detect, file_path
+        )
+    except FileNotFoundError as e:
+        return jsonify({'error': 'File not found: ' + str(e)}), 400
+    except Exception as e:
+        logging.error(f"Error during upload and detection: {e}")
+        return jsonify({'error': 'Error during upload and detection'}), 500
+
+    logging.info(f"Uploaded file as: {conversation_file_uri}")
+    logging.info(f"Retrieved file as: {file_saved_uri}")
+
+    # Save the session ID
+    session_id = generate_secret_key()
+    user_sessions[session_id] = {
+        'local_file_path': file_path,
+        'file_name': file_saved_uri.split('/')[-1],  # Extract file name from URI
+        'history': None
+    }
+
+    # Start a history
+    history = [
+        {"role": "user", "parts": ["👋", file_saved]},
+        {"role": "model", "parts": ["👋"]},
+    ]
+
+    save_conversation_history(history, session_id, user_sessions)
+
+    # Construct response dictionary
+    json_response = {
+        "People": response,
+        "file_data": {"mime_type": "text/plain", "file_uri": file_saved_uri},
+        "session_id": session_id,
+    }
+
+    return jsonify(json_response), 200
+
+
 @routes_blueprint.route('/stop', methods=['POST'])
 async def stop():
     data = request.json

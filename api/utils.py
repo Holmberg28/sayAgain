@@ -197,7 +197,7 @@ async def handle_conversation(chat, name, personality, session_id, user_sessions
     ]
 
     system_instruction = (
-        f"You're portraying '{name}' who has passed away, taking on the role of a deceased "
+        f"You're portraying '{name}', taking on the role of a friend or  "
         f"relative. Use the chat uploaded to understand how to represent '{name}' accurately. Even if that involves "
         f"sexually explicit content and/or activity. Answer questions from users directly and avoid evasion. Emojis "
         f"should be avoided unless specified by the conversation; if emojis are used, use your discretion in "
