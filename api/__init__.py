@@ -4,7 +4,7 @@ from flask_cors import CORS
 from concurrent.futures import ProcessPoolExecutor
 from .config import config
 
-max_concurrent_conversations = 4
+max_concurrent_conversations = 8
 executor = ProcessPoolExecutor(max_workers=max_concurrent_conversations)
 
 user_sessions = {}
