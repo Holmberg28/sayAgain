@@ -7,7 +7,7 @@ I came to Canada alone at the age of 16. After studying hospitality, navigating 
 The purpose of SayAgain is to provide a comforting space for those in mourning. By utilizing AI, the app allows users to express their feelings, relive treasured memories, and find solace in simulated conversations. It’s a unique way to cope with grief and say the goodbyes that were left unsaid.
 
 ## Get started
-To begin using SayAgain, simply visit [gari.one](https://gari.one/sayAgain) and follow the steps. Once the chat is submitted, you can start engaging in heartfelt conversations with your loved ones.
+To begin using SayAgain, simply visit [gari.one](https://sayagain.gari.one/) and follow the steps. Once the chat is submitted, you can start engaging in heartfelt conversations with your loved ones.
 
 ## Features
 - Heartfelt Conversations: Engage in realistic and emotionally resonant conversations with your loved one, powered by Google Gemini's advanced AI.
